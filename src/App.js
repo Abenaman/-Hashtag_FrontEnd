@@ -1,25 +1,51 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
+import axios from 'axios';
 
 class App extends Component {
-  render() {
+  constructor (props) {
+    super (props);
+    this.state = {
+      tweets: [],
+    };
+  }
+  componentDidMount () {
+    axios ('http://localhost:3000/api/hashtags').then (res => {
+      this.setState ({tweets: res.data});
+      console.log (this.state.tweets);
+    });
+  }
+  render () {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className="container">
+        <div className="panel panel-default">
+          <div className="panel-heading">
+            <h3 className="panel-title ">
+              Treading Hashtags#
+            </h3>
+          </div>
+          <div className="panel-body">
+            <table className="table table-stripe">
+              <thead>
+                <tr>
+                  <th>Hashtag#Time</th>
+                  <th>US</th>
+                  <th>Germany</th>
+                  <th>Uk</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.tweets.map (tweet => (
+                  <tr>
+                    <td>{tweet.date}</td>
+                    <td>{tweet.tweets}</td>
+                    <td>{tweet.tweets}</td>
+                    <td>{tweet.tweets}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     );
   }
